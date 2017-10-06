@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="16dp"
+    android:weightSum="1">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="5"
+        app:cardUseCompatPadding="true"
+        app:cardBackgroundColor="@color/cardview_light_background"
+        app:cardElevation="@dimen/cardview_default_elevation"
+        app:cardCornerRadius="@dimen/cardview_default_radius">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/homeView"
+                android:layout_width="match_parent"
+                android:layout_height="142dp"
+                android:padding="16dp"
+                android:src="@mipmap/ic_launcher"
+                android:layout_weight="3"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:weightSum="5">
+                    <TextView
+                        android:text="Home"
+                        android:textAlignment="center"
+                        android:layout_height="match_parent"
+                        android:textSize="30sp"
+                        android:gravity="center"
+                        android:layout_width="0dp"
+                        android:layout_gravity="bottom"
+                        android:layout_weight="3"
+                    />
+                    <Button
+                        android:id="@+id/living_room_toggle_button"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:background="#F44336"
+                        android:text="OFF"
+                        android:textSize="18sp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/home_expanded"
+                android:visibility="gone"
+                android:layout_marginTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:weightSum="5">
+                    <TextView
+                        android:text="Light"
+                        android:textAlignment="center"
+                        android:layout_height="match_parent"
+                        android:textSize="30sp"
+                        android:gravity="center"
+                        android:layout_width="0dp"
+                        android:layout_gravity="bottom"
+                        android:layout_weight="3"
+                        />
+                    <Button
+                        android:id="@+id/living_room_light_button"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:background="@color/colorPrimary"
+                        android:text="IMAGE"
+                        android:textSize="18sp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:weightSum="5">
+                    <TextView
+                        android:text="Light"
+                        android:textAlignment="center"
+                        android:layout_height="match_parent"
+                        android:textSize="30sp"
+                        android:gravity="center"
+                        android:layout_width="0dp"
+                        android:layout_gravity="bottom"
+                        android:layout_weight="3"
+                        />
+                    <Button
+                        android:id="@+id/home_bar_button"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:background="@color/colorPrimary"
+                        android:text="IMAGE"
+                        android:textSize="18sp"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>
