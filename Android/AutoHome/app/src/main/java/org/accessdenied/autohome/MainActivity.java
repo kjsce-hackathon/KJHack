@@ -1,10 +1,11 @@
 package org.accessdenied.autohome;
 
-import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.google.firebase.database.DataSnapshot;
@@ -16,12 +17,22 @@ import com.google.firebase.database.ValueEventListener;
 public class MainActivity extends AppCompatActivity {
 
     private DatabaseReference reference;
-    private boolean isLivingRoomMasterOn = false;
+    private boolean isMasterSwitchOn = false;
+
     private boolean isLivingRoomFanOn = false;
     private boolean isLivingRoomLightOn = false;
-    private boolean isBedRoomMasterOn = false;
     private boolean isBedRoomFanOn = false;
     private boolean isBedRoomLightOn = false;
+
+    public boolean isLivingRoomDashBoardVisibile() {
+        LinearLayout livingRoomExpanded = (LinearLayout) findViewById(R.id.living_room_expanded);
+        return livingRoomExpanded.getVisibility() == View.GONE;
+    }
+
+    public boolean isBedRoomDashBoardVisibile() {
+        LinearLayout bedRoomExpanded = (LinearLayout) findViewById(R.id.bedroom_expanded);
+        return bedRoomExpanded.getVisibility() == View.GONE;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,34 +42,29 @@ public class MainActivity extends AppCompatActivity {
         FirebaseDatabase autoDataBase = FirebaseDatabase.getInstance();
         reference = autoDataBase.getReference("/home");
 
-        final Button livingRoomMasterButton = (Button) findViewById(R.id.living_room_toggle_button);
+        ///////////////////////////
+        // LIVING ROOM CARD VIEW //
+        ///////////////////////////
 
-        livingRoomMasterButton.setOnClickListener(new View.OnClickListener() {
+        final CardView livingRoomCard = (CardView) findViewById(R.id.living_room_card_view);
+        livingRoomCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LinearLayout homeExpandedLayout = (LinearLayout) findViewById(R.id.home_expanded);
+                LinearLayout livingRoomExpanded = (LinearLayout) findViewById(R.id.living_room_expanded);
+                if(isLivingRoomDashBoardVisibile())
+                    livingRoomExpanded.setVisibility(View.VISIBLE);
+                else
+                    livingRoomExpanded.setVisibility(View.GONE);
 
-                // LivingRoom Elements are turned off, forcefully
-                reference.child("/LivingRoom/light").setValue("0");
-                reference.child("/LivingRoom/fan").setValue("0");
-
-                if(homeExpandedLayout.getVisibility() == View.GONE) {
-                    homeExpandedLayout.setVisibility(View.VISIBLE);
-                    reference.child("/LivingRoom").setValue("1");
-                    livingRoomMasterButton.setBackgroundColor(Color.parseColor("#4CAF50"));
-                    livingRoomMasterButton.setText("ON");
-                }
-                else {
-                    homeExpandedLayout.setVisibility(View.GONE);
-                    reference.child("/LivingRoom").setValue("0");
-                    livingRoomMasterButton.setBackgroundColor(Color.parseColor("#F44336"));
-                    livingRoomMasterButton.setText("OFF");
-                }
             }
         });
 
-        Button livingRoomLightButton = (Button) findViewById(R.id.living_room_light_button);
-        livingRoomLightButton.setOnClickListener(new View.OnClickListener() {
+        ///////////////////////
+        // LIVING ROOM LIGHT //
+        ///////////////////////
+
+        LinearLayout livingRoomLightLayout = (LinearLayout) findViewById(R.id.living_room_light_layout);
+        livingRoomLightLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 reference.child("/LivingRoom/light").setValue(isLivingRoomLightOn ? "0" : "1");
@@ -68,11 +74,12 @@ public class MainActivity extends AppCompatActivity {
         reference.child("/LivingRoom/light").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                ImageView livingRoomLightButton = (ImageView) findViewById(R.id.living_room_light_button);
+
                 if (dataSnapshot.getValue() != null) {
                     String value = dataSnapshot.getValue().toString();
-                    isLivingRoomFanOn = value.equals("1");
-                    //ImageView livingRoomLight = findViewById(R.id.livingRoomImg);
-                    //livingRoomLight.setImageResource(isLivingRoomLightOn ? R.drawable.bulb_on : R.drawable.bulb_off);
+                    isLivingRoomLightOn = value.equals("1");
+                    livingRoomLightButton.setImageResource(isLivingRoomLightOn ? R.drawable.bulb_on_image : R.drawable.bulb_off_image);
                 }
             }
 
@@ -82,8 +89,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button livingRoomFanButton = (Button) findViewById(R.id.home_bar_button);
-        livingRoomFanButton.setOnClickListener(new View.OnClickListener() {
+        //////////////////////
+        // LIVING ROOM FAN //
+        /////////////////////
+
+        LinearLayout livingRoomFanLayout = (LinearLayout) findViewById(R.id.living_room_fan_layout);
+        livingRoomFanLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 reference.child("/LivingRoom/fan").setValue(isLivingRoomFanOn ? "0" : "1");
@@ -95,10 +106,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null) {
+                    ImageView livingRoomFanButton = (ImageView) findViewById(R.id.living_room_fan_button);
+
                     String value = dataSnapshot.getValue().toString();
                     isLivingRoomFanOn = value.equals("1");
-                    //ImageView livingRoomLight = findViewById(R.id.livingRoomImg);
-                    //livingRoomLight.setImageResource(isLivingRoomLightOn ? R.drawable.bulb_on : R.drawable.bulb_off);
+                    livingRoomFanButton.setImageResource(isLivingRoomFanOn ? R.drawable.fan_on_image : R.drawable.fan_off_image);
                 }
             }
 
@@ -108,5 +120,112 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        ////////////////////////
+        // BEDROOM CARD VIEW //
+        ///////////////////////
+
+        final CardView bedRoomCard = (CardView) findViewById(R.id.bedroom_card_view);
+        bedRoomCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LinearLayout bedRoomExpanded = (LinearLayout) findViewById(R.id.bedroom_expanded);
+                if(isBedRoomDashBoardVisibile())
+                    bedRoomExpanded.setVisibility(View.VISIBLE);
+                else
+                    bedRoomExpanded.setVisibility(View.GONE);
+
+            }
+        });
+
+        ////////////////////
+        // BEDROOM LIGHT //
+        ///////////////////
+
+        LinearLayout bedRoomLightLayout = (LinearLayout) findViewById(R.id.bedroom_light_layout);
+        bedRoomLightLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                reference.child("/BedRoom/light").setValue(isBedRoomLightOn ? "0" : "1");
+            }
+        });
+
+        reference.child("/BedRoom/light").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ImageView bedRoomLightButton = (ImageView) findViewById(R.id.bedroom_light_button);
+
+                if (dataSnapshot.getValue() != null) {
+                    String value = dataSnapshot.getValue().toString();
+                    isBedRoomLightOn = value.equals("1");
+                    bedRoomLightButton.setImageResource(isBedRoomLightOn ? R.drawable.bulb_on_image : R.drawable.bulb_off_image);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        /////////////////
+        // BEDROOM FAN //
+        /////////////////
+
+        LinearLayout bedRoomFanLayout = (LinearLayout) findViewById(R.id.bedroom_fan_layout);
+        bedRoomFanLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                reference.child("/BedRoom/fan").setValue(isBedRoomFanOn ? "0" : "1");
+
+            }
+        });
+
+        reference.child("/BedRoom/fan").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) {
+                    ImageView bedRoomFanButton = (ImageView) findViewById(R.id.bedroom_bar_button);
+
+                    String value = dataSnapshot.getValue().toString();
+                    isBedRoomFanOn = value.equals("1");
+                    bedRoomFanButton.setImageResource(isBedRoomFanOn ? R.drawable.fan_on_image : R.drawable.fan_off_image);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+        ////////////////////////
+        // THE MASTER SWITCH //
+        ///////////////////////
+
+        Button theMasterButton = (Button) findViewById(R.id.master_toggle_button);
+        theMasterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                LinearLayout bedRoomExpanded = (LinearLayout) findViewById(R.id.bedroom_expanded);
+                LinearLayout livingRoomExpanded = (LinearLayout) findViewById(R.id.living_room_expanded);
+
+                if(!isMasterSwitchOn) {
+                    bedRoomExpanded.setVisibility(View.GONE);
+                    livingRoomExpanded.setVisibility(View.GONE);
+                }
+
+                isMasterSwitchOn = !isMasterSwitchOn;
+
+                reference.child("/LivingRoom/light").setValue("0");
+                reference.child("/LivingRoom/fan").setValue("0");
+                reference.child("/BedRoom/light").setValue("0");
+                reference.child("/BedRoom/fan").setValue("0");
+
+            }
+        });
+
     }
+
 }
