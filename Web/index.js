@@ -2,29 +2,29 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 admin.initializeApp(functions.config().firebase);
 
-// Create and Deploy Your First Cloud Functions
-// https://firebase.google.com/docs/functions/write-firebase-functions
-
 exports.storeImgURL = functions.https.onRequest( (request, response) => {
-	if ( request.method == "POST" )
+	if ( request.method === "POST" )
 	{
-		admin.database().ref('url').set(request.body);
+		admin.database().ref('url').update(request.body);
 		response.send("success");
 	}
 	else
-	{
 		response.send("error");
-	}
 });
 
 exports.storeName = functions.https.onRequest( (request, response) => {
-	if ( request.method == "POST" )
+	if ( request.method === "POST" )
 	{
-		admin.database().ref('url').set(request.body);
+		admin.database().ref('url').update(request.body);
 		response.send("success");
 	}
 	else
-	{
 		response.send("error");
-	}
 });
+
+// changed the database set method to update method
+// 
+
+// needs to be done from the app side
+// reset the value of the img and name data once the notifiction uis read
+// or delete the node
