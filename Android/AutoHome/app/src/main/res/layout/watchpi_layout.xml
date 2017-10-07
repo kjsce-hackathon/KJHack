@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:minHeight="50dp"
+        android:minWidth="200dp"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_above="@+id/person_status"
+        android:indeterminate="true" />
+
+    <com.ceylonlabs.imageviewpopup.ImagePopup
+        android:id="@+id/intruder_image"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@mipmap/ic_launcher_round"/>
+
+    <TextView
+        android:id="@+id/person_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/intruder_image"
+        android:text="No Activity"
+        android:textStyle="bold"
+        android:layout_marginLeft="16dp"
+        android:textSize="15sp"/>
+
+    <TextView
+        android:id="@+id/person_status_body"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/person_status"
+        android:text="No Activity has been spotted yet, we're listening"
+        android:layout_toRightOf="@id/intruder_image"/>
+
+
+</RelativeLayout>
