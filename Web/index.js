@@ -27,4 +27,4 @@ exports.storeName = functions.https.onRequest( (request, response) => {
 
 // needs to be done from the app side
 // reset the value of the img and name data once the notifiction uis read
-// or delete the node
+// or delete the node.

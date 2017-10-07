@@ -10,11 +10,11 @@ r = requests.post(url, files=files)
 print r.text
 
 # if the image is of known person send that persons name
-name = "just a random name"
+name = "another name"
 url = "https://us-central1-auto-d6b09.cloudfunctions.net/storeName"
 data = {'name': name}
 r = requests.post(url, data=data)
-preint r.text
+print r.text
 
 # else send the server image url to firbase
 url = "https://us-central1-auto-d6b09.cloudfunctions.net/storeImgURL"
