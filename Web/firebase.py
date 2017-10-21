@@ -25,7 +25,7 @@ while true:
 	r = fb.get('/imgReco', None)
 	if r['check'] == 1:
 
-		url = "http://chinmayhomeauto.000webhostapp.com/uploads/obama.jpg"
+		url = "http://chinmayhomeauto.000webhostapp.com/uploads/check.jpg"
 		urllib.urlretrieve(url, "test.jpg")
 
 		unknown_image = face_recognition.load_image_file("test.jpg")
@@ -55,7 +55,7 @@ while true:
 			r = requests.post(url, data=data)
 			print r.text
 
-		result = fb.post('/',{'imgReco/check':0})
+		result = fb.post('/imgReco',{'check':0})
 		print result
 
 	time.sleep(1000)
